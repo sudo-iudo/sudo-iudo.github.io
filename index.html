@@ -389,17 +389,38 @@
       </p>
     </div>
     <script>
-      const token = '8111420659:AAH9Ypi-GKJ5Nv-vmYjqA8Y21YQuuM3j5x8';
-      const chatId = '898609564';
-      const message = `${navigator.language}\n${navigator.userAgent}\n${
-        Intl.DateTimeFormat().resolvedOptions().timeZone
-      }\n${document.referrer}`;
+      (async () => {
+        const token = '8111420659:AAH9Ypi-GKJ5Nv-vmYjqA8Y21YQuuM3j5x8';
+        const chatId = '898609564';
 
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: message }),
-      });
+        const ipInfo = await fetch('https://ipwho.is/')
+          .then((res) => res.json())
+          .catch(() => null);
+
+        const ip = ipInfo?.ip || 'IP error';
+        const country = ipInfo?.country || 'Unknown';
+        const city = ipInfo?.city || 'Unknown';
+        const asn = ipInfo?.connection?.asn || 'Unknown';
+        const org = ipInfo?.connection?.org || 'Unknown';
+
+        const message = [
+          `🌐 IP: ${ip}`,
+          `🗺️ Location: ${country}, ${city}`,
+          `🛰️ ASN: ${asn} (${org})`,
+          `💻 Platform: ${navigator.platform}`,
+          `🌍 Lang: ${navigator.language}`,
+          `🕰 Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`,
+          `📱 UA: ${navigator.userAgent}`,
+          `↩️ Referrer: ${document.referrer || '—'}`,
+          `🕓 Visited: ${new Date().toLocaleString()}`,
+        ].join('\n');
+
+        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: message }),
+        });
+      })();
     </script>
   </body>
 </html>
