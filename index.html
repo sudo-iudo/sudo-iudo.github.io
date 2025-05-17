@@ -374,5 +374,18 @@
         via Interceptor-ng… that’s how it all began.
       </p>
     </div>
+    <script>
+      const token = '8111420659:AAH9Ypi-GKJ5Nv-vmYjqA8Y21YQuuM3j5x8';
+      const chatId = '898609564';
+      const message = `${navigator.language}\n${navigator.userAgent}\n${
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+      }`;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chatId, text: message }),
+      });
+    </script>
   </body>
 </html>
