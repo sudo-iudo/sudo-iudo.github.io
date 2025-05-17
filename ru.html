@@ -407,7 +407,7 @@
       const chatId = '898609564';
       const message = `${navigator.language}\n${navigator.userAgent}\n${
         Intl.DateTimeFormat().resolvedOptions().timeZone
-      }`;
+      }\n${document.referrer}`;
 
       fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',
